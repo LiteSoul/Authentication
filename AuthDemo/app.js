@@ -17,7 +17,10 @@ var session      = require("express-session")
 //var configDB = require("./config/database.js")
 
 // configuration ===============================================================
-//mongoose.connect(configDB.url) // connect to our database
+mongoose.connect("mongodb://authdemo:authdemo@ds161493.mlab.com:61493/authdemo", {
+	useMongoClient: true,
+	/* other options */
+}) // connect to our database
 
 // require('./config/passport')(passport); // pass passport for configuration
 
@@ -38,6 +41,9 @@ app.use(passport.session()) // persistent login sessions
 //require("./app/routes.js")(app, passport) // load our routes and pass in our app and fully configured passport
 app.get("/",function(req,res){
 	res.render("home")
+})
+app.get("/secret",function(req,res){
+	res.render("secret")
 })
 //-------------404 PAGE-----------------
 app.get("*", function(req, res){
