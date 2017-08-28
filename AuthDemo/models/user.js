@@ -7,6 +7,6 @@ let UserSchema = new mongoose.Schema({
 })
 
 //add methods/feaures from p-l-mongoose package
-UserSchema.plugin("passportLocalMongoose")
+UserSchema.plugin(passportLocalMongoose)
 
 module.exports = mongoose.model("User",UserSchema)

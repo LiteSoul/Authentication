@@ -1,4 +1,5 @@
-// server.js on scotch.io
+// server.js taken from https://scotch.io/tutorials/easy-node-authentication-setup-and-local
+// and modified with the course
 
 // set up ======================================================================
 // get all the tools we need
@@ -32,22 +33,35 @@ app.use(bodyParser.urlencoded({extended:true})) // get information from html for
 
 app.set("view engine", "ejs") // set up ejs for templating
 
-// required for passport
-app.use(session({ secret: "el secreto de sus ojos" })) // session secret
+// setup passport
+app.use(session({
+	secret: "el secreto de sus ojos",
+	resave: false,
+	saveUninitialized: false
+}))
 app.use(passport.initialize())
 app.use(passport.session()) // persistent login sessions
+// use static serialize and deserialize of model for passport session support
+passport.serializeUser(User.serializeUser())
+passport.deserializeUser(User.deserializeUser())
 //app.use(flash()) // use connect-flash for flash messages stored in session
 
 // routes ======================================================================
 //require("./app/routes.js")(app, passport) // load our routes and pass in our app and fully configured passport
-app.get("/",function(req,res){
+app.get("/",(req,res)=>{
 	res.render("home")
 })
-app.get("/secret",function(req,res){
+app.get("/secret",(req,res)=>{
 	res.render("secret")
 })
+app.get("/signup",(req,res)=>{
+	res.render("signup")
+})
+app.post("/signup",(req,res)=>{
+	res.send("POSTING OK")
+})
 //-------------404 PAGE-----------------
-app.get("*", function(req, res){
+app.get("*",(req,res)=>{
 	res.send("404 NOTHING TO SEE HERE...")
 })
 
