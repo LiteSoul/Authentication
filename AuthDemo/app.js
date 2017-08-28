@@ -29,7 +29,7 @@ mongoose.connect("mongodb://authdemo:authdemo@ds161493.mlab.com:61493/authdemo",
 //app.use(morgan("dev")) // log every request to the console
 //app.use(cookieParser()) // read cookies (needed for auth)
 const app = express()
-app.use(bodyParser.urlencoded({extended:true})) // get information from html forms
+app.use(bodyParser.urlencoded({extended:true})) // get information from html forms (user pass)
 
 app.set("view engine", "ejs") // set up ejs for templating
 
