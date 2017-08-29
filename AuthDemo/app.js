@@ -55,7 +55,7 @@ passport.deserializeUser(User.deserializeUser())
 app.get("/",(req,res)=>{
 	res.render("home")
 })
-app.get("/secret",(req,res)=>{
+app.get("/secret",isLoggedIn,(req,res)=>{
 	res.render("secret")
 })
 app.get("/signup",(req,res)=>{
