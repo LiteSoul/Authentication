@@ -18,6 +18,8 @@ const
 //var configDB = require("./config/database.js")
 
 // configuration ===============================================================
+// Use native promises for mongoose
+mongoose.Promise = global.Promise
 mongoose.connect("mongodb://authdemo:authdemo@ds161493.mlab.com:61493/authdemo", {
 	useMongoClient: true,
 	/* other options */
@@ -57,15 +59,25 @@ app.get("/secret",(req,res)=>{
 app.get("/signup",(req,res)=>{
 	res.render("signup")
 })
+//Handling user Signup
 app.post("/signup",(req,res)=>{
-	res.send("POSTING OK")
+	User.register	(new User({username: req.body.username}), req.body.password, (err,user)=>{
+		if(err){
+			console.log(err)
+			return res.render("signup")
+		}
+		passport.authenticate("local")(req,res,function(){
+			res.redirect("/secret")
+		})
+	})
 })
+
+
 //-------------404 PAGE-----------------
 app.get("*",(req,res)=>{
 	res.send("404 NOTHING TO SEE HERE...")
 })
-
 // launch ======================================================================
-port = process.env.PORT || 3000,
+let port = process.env.PORT || 3000
 app.listen(port)
 console.log("The magic happens on port " + port)
