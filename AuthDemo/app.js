@@ -43,6 +43,8 @@ app.use(session({
 }))
 app.use(passport.initialize())
 app.use(passport.session()) // persistent login sessions
+//not clear this step why this way:
+passport.use(new LocalStrategy(User.authenticate()))
 // use static serialize and deserialize of model for passport session support
 passport.serializeUser(User.serializeUser())
 passport.deserializeUser(User.deserializeUser())
@@ -71,6 +73,18 @@ app.post("/signup",(req,res)=>{
 		})
 	})
 })
+//Login routes
+app.get("/login",(req,res)=>{
+	res.render("login")
+})
+//passing passport as 2nd argument it's called middleware
+app.post("/login", passport.authenticate("local", {
+	successRedirect : "/secret", // redirect to the secure profile section
+	failureRedirect : "/login" // redirect back to the login page if there is an error
+}))
+
+
+
 
 
 //-------------404 PAGE-----------------
