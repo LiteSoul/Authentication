@@ -82,10 +82,23 @@ app.post("/login", passport.authenticate("local", {
 	successRedirect : "/secret", // redirect to the secure profile section
 	failureRedirect : "/login" // redirect back to the login page if there is an error
 }))
+//Logout route
+app.get("/logout",(req,res)=>{
+	req.logout()
+	res.redirect("/")
+})
 
 
 
 
+// route middleware to make sure a user is logged in
+function isLoggedIn(req, res, next) {
+	// if user is authenticated in the session, carry on 
+	if (req.isAuthenticated())
+		return next()
+	// if they aren't redirect them to the home page
+	res.redirect("/login")
+}
 
 //-------------404 PAGE-----------------
 app.get("*",(req,res)=>{
